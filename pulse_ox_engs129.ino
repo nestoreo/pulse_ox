@@ -257,6 +257,15 @@ int getDutyCycle(float peakToPeak, int state) {
 
   if (peakToPeak < LOWER_THRESH_ADC_VOLTAGE || peakToPeak > UPPER_THRESH_ADC_VOLTAGE) {
     int tempState =(int) ((TARGET_ADC_VOLTAGE/peakToPeak)*(float)(state));
+    int stateDifference = tempState - updatedState;
+
+    if (stateDifference > 10)  {
+      tempState = updatedState + 10;
+    }
+    else if (stateDifference < -10) {
+      tempState = updatedState - 10;
+    }
+
     if (tempState > MAX_STATE) {
       updatedState = MAX_STATE;
     }
